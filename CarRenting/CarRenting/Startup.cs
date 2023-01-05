@@ -21,7 +21,7 @@ namespace CarRenting
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<CarRentingDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
@@ -35,7 +35,7 @@ namespace CarRenting
                 options.Password.RequireUppercase = false;
                 options.Password.RequireUppercase = false;
             })
-                    .AddEntityFrameworkStores<ApplicationDbContext>();
+                    .AddEntityFrameworkStores<CarRentingDbContext>();
 
             services.AddControllersWithViews();
         }
