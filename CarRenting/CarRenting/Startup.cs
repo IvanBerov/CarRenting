@@ -1,4 +1,5 @@
 using CarRenting.Data;
+using CarRenting.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -43,6 +44,8 @@ namespace CarRenting
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.PrepareDatabase();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -67,6 +70,8 @@ namespace CarRenting
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });
+
+           // app.ApplicationServices.GetService<CarRentingDbContext>().Database.Migrate();
         }
     }
 }
