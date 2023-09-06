@@ -23,8 +23,7 @@ namespace CarRenting
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<CarRentingDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 

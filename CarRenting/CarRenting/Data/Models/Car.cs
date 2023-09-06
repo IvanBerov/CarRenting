@@ -23,7 +23,7 @@
 
         public int Year { get; set; }
 
-        public int CatrgoryId { get; set; }
+        public int CategoryId { get; set; }
 
         public Category Category { get; init; }
     }
