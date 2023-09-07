@@ -31,7 +31,7 @@ namespace CarRenting.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("CatrgoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -52,7 +52,7 @@ namespace CarRenting.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CatrgoryId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Cars");
                 });
@@ -276,7 +276,7 @@ namespace CarRenting.Data.Migrations
                 {
                     b.HasOne("CarRenting.Data.Models.Category", "Category")
                         .WithMany("Cars")
-                        .HasForeignKey("CatrgoryId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

@@ -20,7 +20,7 @@ namespace CarRenting.Data
             builder.Entity<Car>()
                 .HasOne(c => c.Category)
                 .WithMany(c => c.Cars)
-                .HasForeignKey(c => c.CatrgoryId)
+                .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);

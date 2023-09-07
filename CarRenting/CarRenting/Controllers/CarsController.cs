@@ -16,10 +16,29 @@ namespace CarRenting.Controllers
             this.data = data;
         }
 
+        public IActionResult All()
+        {
+            var cars = this.data
+                .Cars
+                .OrderByDescending(c => c.Id)
+                .Select(c => new CarListingViewModel
+                {
+                    Id = c.Id,
+                    Brand = c.Brand,
+                    Model = c.Model,
+                    Year = c.Year,
+                    ImageUrl = c.ImageUrl,
+                    Category = c.Category.Name
+                })
+                .ToList();
+
+            return View(cars);
+        }
+
         public IActionResult Add() => View(new AddCarFormModel { Categoris = this.GetCarCategories()});
 
         [HttpPost]
-        public IActionResult Index(AddCarFormModel car)
+        public IActionResult Add(AddCarFormModel car)
         {
             if (!this.data.Categories.Any(c => c.Id == car.CategoryId))
             {
@@ -43,7 +62,9 @@ namespace CarRenting.Controllers
             };
 
             this.data.Cars.Add(carData);
+
             this.data.SaveChanges();
+
             return RedirectToAction("Index", "Home");
         }
 
