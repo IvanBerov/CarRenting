@@ -10,7 +10,7 @@
 
         public const int descriptionMinlength = 10;
 
-        public const int yearMinValue = 2000;
+        public const int yearMinValue = 1950;
         public const int yearMaxValue = 2050;
 
 
