@@ -3,14 +3,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CarRenting.Data.Models
 {
-    using static DataConstants.Category;
-    public class Category
+    using static DataConstants.Dealer;
+
+    public class Dealer
     {
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Required]
         [MaxLength(NameMaxLength)]
         public string Name { get; set; }
+
+        [Required]
+        [MaxLength(PhoneNumberMaxLength)]
+        public string PhoneNumber { get; set; }
+
+        [Required]
+        public string UserId { get; set; }
 
         public IEnumerable<Car> Cars { get; init; } = new List<Car>();
     }
