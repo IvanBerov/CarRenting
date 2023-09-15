@@ -1,6 +1,8 @@
 ﻿using CarRenting.Data;
 using CarRenting.Data.Models;
+using CarRenting.Infrastructure;
 using CarRenting.Models.Cars;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,11 +71,35 @@ namespace CarRenting.Controllers
             return View(query);
         }
 
-        public IActionResult Add() => View(new AddCarFormModel { Categoris = this.GetCarCategories()});
+        [Authorize]
+        public IActionResult Add()
+        {
+            if (!this.UserIsDealer())
+            {
+                return RedirectToAction(nameof(DealersController.Become), "Dealers");
+            }
 
-        [HttpPost]
+            return View(new AddCarFormModel
+            {
+                Categoris = this.GetCarCategories()
+            });
+        }
+
+[HttpPost]
+        [Authorize]
         public IActionResult Add(AddCarFormModel car)
         {
+            var dealerId = this.data
+                .Dealers
+                .Where(d => d.UserId == this.User.GetId())
+                .Select(d => d.Id)
+                .FirstOrDefault();
+
+            if (dealerId == 0)
+            {
+                return RedirectToAction(nameof(DealersController.Become), "Dealers");
+            }
+
             if (!this.data.Categories.Any(c => c.Id == car.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(car.CategoryId), "Category does not exist.");
@@ -92,7 +118,8 @@ namespace CarRenting.Controllers
                 Description = car.Description,
                 ImageUrl = car.ImageUrl,
                 Year = car.Year,
-                CategoryId = car.CategoryId
+                CategoryId = car.CategoryId,
+                DealerId = dealerId
             };
 
             this.data.Cars.Add(carData);
@@ -110,5 +137,10 @@ namespace CarRenting.Controllers
                 Name = c.Name
             })
             .ToList();
+
+        private bool UserIsDealer()
+            => this.data
+                .Dealers
+                .Any(d => d.UserId == this.User.GetId());
     }
 }
